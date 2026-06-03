@@ -1,0 +1,60 @@
+Round Robin // Preemptive Algorithm
+
+Numerical Example:
+--------------------------------------
+| P.No.| AT | BT | CT | TT | WT | RT |
+--------------------------------------
+| P1   | 00 | 05 | 13 | 13 | 08 | 00 |
+--------------------------------------
+| P2   | 01 | 04 | 10 | 09 | 05 | 01 |
+--------------------------------------
+| P3   | 02 | 02 | 06 | 04 | 02 | 02 |
+--------------------------------------
+| P4   | 04 | 01 | 11 | 07 | 06 | 06 |
+--------------------------------------
+
+GANTT chart:
+--------------------------------------------------
+|  P1  |  P2  |  P3  |  P1  |  P4  |  P2  |  P1  |
+--------------------------------------------------
+0      2      4      6      8      9     11     12
+
+Ready Queue: (t=)
+    0: P1(5)                        'P1 enters cpu
+    1: P2(4)
+    2: P3(2), P1(3)                 'P2 enters cpu
+    3: P3(2), P1(3)          
+    4: P3(2), P1(3), P4(1), P2(2)   'P3 enters
+    5: P1(3), P4(1), P2(2)
+    6: P1(3), P4(1), P2(2)          'P3 finished, P1 enters
+    7: P4(1), P2(2)
+    8: P4(1), P2(2), P1(1)          'P4 enters
+    9: P2(2), P1(1)                 'P4 finished, P2 enters (with new tq in 9-11)
+   11: P1(1)                        'P2 finished, P1 enters
+   12: finished!                    'P1 finished
+ 
+
+Definition: 
+- A cpu scheduling algorithm where each process is assigned a fixed time quantum/time slot in a cylic way
+- It is primarily used in the time sharing systems to ensure that all processes get an equal amount of time (typically 10-100ms)
+- Allocated to each process before the CPU switches to the next one
+        
+Time Quantum: - the small, fixed unit of time allocated to each process before the CPU switches to the next one
+
+Procedure: 
+- all processes are placed in a fifo ready queue
+- cpu takes the first processs in queue and runs it for one time quanta
+- if process finishes within one time quantum, it leaves the system
+- if process is still running after the time quantum expires, CPU preempts it, moves it to the back of the fifo queue, and performs a context switch to the next process
+
+Advantages:
+- fairness
+- no starvation
+- low response time
+- simplicity
+
+Disadvantages:
+- context switching overhead
+- performance dependency (choice of time time quantum)
+- high turnaround time (tat)
+- poor for varying length process   

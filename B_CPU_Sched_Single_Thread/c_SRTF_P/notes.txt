@@ -1,0 +1,47 @@
+SRTF // Shortest Remaining Time First // Preemptive
+
+
+Numerical Example:
+--------------------------------------
+| P.No.| AT | BT | CT | TT | WT | RT |
+--------------------------------------
+| P1   | 00 | 05 | 06 | 05 | 02 | 02 |
+--------------------------------------
+| P2   | 01 | 03 | 10 | 08 | 04 | 04 |
+--------------------------------------
+| P3   | 02 | 04 | 03 | 02 | 00 | 00 |
+--------------------------------------
+| P4   | 04 | 01 | 14 | 10 | 06 | 06 |
+--------------------------------------
+
+GANTT chart:
+------------------------------------
+|  P1  |  P2  |  P4  |  P1  |  P3  |
+------------------------------------
+0      1      4      5      9     13
+
+Ready Queue: (time)
+        0: P1
+        1: P2, P1
+        2: P2, P1, P3   (P1 before P3 coz of AT)
+        3: P2, P1, P3
+        4: P4, P1, P3   (P2 finished, P4 arrived)
+      5-9: P1, P3       (P4 finished, goes till P1 finishes at t=9)
+    10-13: P3           (goes till P3 finishes at t=13)
+(at each sec, first process is the one getting executed, and the order is by remainingburst time)
+
+
+
+Definition: - Algo in which, at any given time, the process with the smallest rem. BT among the ready processes is selected for execution.
+            - Is "preemptive", meaning context switching occurs when a process with less remaining burst time arrives in queue
+
+Advantages:
+- Optimal average waiting time (not very good)
+- High throughput: more no. of processes / unit time
+- Responsive for short tasks
+
+Disadvantages:
+- Starvation (may occur)
+- High context-switching overhead: more cpu cycle consumption
+- Difficulty in estimation
+- Complex Implementation: scheduler must constantly monitor remaining burst time

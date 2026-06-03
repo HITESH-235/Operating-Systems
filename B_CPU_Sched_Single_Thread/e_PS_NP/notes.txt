@@ -1,0 +1,34 @@
+Priority Sheduling // Non-Preemptive
+
+Numerical Example: (higher num, higher priority)
+-------------------------------------------
+| P.No.| Pr | AT | BT | CT | TT | WT | RT |
+-------------------------------------------
+| P1   | 01 | 00 | 05 | 10 | 05 | 02 | 02 |
+-------------------------------------------
+| P2   | 02 | 01 | 03 | 17 | 08 | 04 | 04 |
+-------------------------------------------
+| P3   | 03 | 02 | 04 | 12 | 02 | 00 | 00 |
+-------------------------------------------
+| P4   | 00 | 04 | 01 | 37 | 10 | 06 | 06 |
+-------------------------------------------
+
+GANTT chart:
+-----------------------------
+|  P1  |  P3  |  P2  |  P4  |
+-----------------------------
+0     10     12     17     37
+
+
+Definition: - an algorithm where the process with the higher priority among ready processes is selected for execution
+            - is non preemptive, meaning that if one process starts executing, it continues until its completion, even if a process with higher priority arrives
+            
+Advantages:
+- Simple Implementation
+- Low context switching overhead
+- High priority gets executed first, hence suitable for such systems with critical tasks
+
+Disadvantages:
+- Starvation (may occur, with a long running high priority task)
+- Poor responsiveness
+- Non-preemptive, hence high prior task arriving later must wait

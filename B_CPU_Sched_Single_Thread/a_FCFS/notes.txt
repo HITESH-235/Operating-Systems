@@ -1,0 +1,35 @@
+FCFS // First-Come-First-Serve // Preeemptive
+
+
+Numerical Example:
+--------------------------------------
+| P.No.| AT | BT | CT | TT | WT | RT |
+--------------------------------------
+| P1   | 00 | 02 | 02 | 02 | 00 | 00 |
+--------------------------------------
+| P2   | 01 | 02 | 04 | 03 | 01 | 01 |
+--------------------------------------
+| P3   | 05 | 03 | 08 | 03 | 00 | 00 |
+--------------------------------------
+| P4   | 06 | 04 | 12 | 06 | 02 | 02 |
+--------------------------------------
+
+GANTT chart:
+-----------------------------
+|  P1  |  P2  |  P3  |  P4  |
+-----------------------------
+0      2      4      8     12
+
+
+Definition: FCFS is a scheduling algo where the process that requests the CPU first is allocated the CPU first, hence a non-preemptive one
+
+Advantages:
+- Simplicity: Easy to understand and implement
+- Fairness: Every process gets a chance to execute in the order they arrive
+- No starvation: Every process will eventually get executed
+
+Disadvantages:
+- Long waiting time: If a long process arrives before shorter ones, it can lead to long waiting times for the shorter processes
+- Poor performance: It can lead to poor CPU utilization and increased tat time, especially if there are processes with varying burst times
+- Not suitable for time-sharing systems: 
+    It does not allow for preemption, can lead to poor responsiveness in time-sharing systems where multiple processes need to share the CPU

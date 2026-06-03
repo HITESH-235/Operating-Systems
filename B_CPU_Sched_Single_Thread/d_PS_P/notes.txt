@@ -1,0 +1,36 @@
+Priority Scheduling // Preemptive Algorithm
+
+
+Numerical Example: (higher num, higher priority)
+-------------------------------------------
+| P.No.| Pr | AT | BT | CT | TT | WT | RT |
+-------------------------------------------
+| P1   | 10 | 00 | 05 | 12 | 12 | 07 | 00 |
+-------------------------------------------
+| P2   | 20 | 01 | 03 | 08 | 07 | 03 | 00 |
+-------------------------------------------
+| P3   | 30 | 02 | 02 | 04 | 02 | 00 | 00 |
+-------------------------------------------
+| P4   | 40 | 04 | 01 | 05 | 01 | 00 | 06 |
+-------------------------------------------
+
+GANTT chart:
+--------------------------------------------------
+|  P1  |  P2  |  P3  |  P3  |  P4  |  P2  |  P1  |
+--------------------------------------------------
+0      1      2      3      4      5      8     12
+
+
+Definition: - an algorithm where the process with the higher priority among ready processes is selected for execution
+            - is "preemptive", meaning context switching occurs when a new process arrives in ready queue, with cpu choosing one with high priority first
+            - very similar to srtf, except that priority helps getting current process to run instead of rem.BT
+
+Advantages:
+- high priority tasks gets executed first
+- good for real time and critical systems
+- flexible and easy to customise
+
+Disadvantages:
+- starvation can occur
+- more context switching overhead
+- requires priority based mechanism, bit more complex to implement
