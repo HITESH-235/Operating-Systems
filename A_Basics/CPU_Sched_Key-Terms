@@ -1,0 +1,56 @@
+1. Performance Metrics
+--------------------------------------------------------------------------------------------------------------------------
+CPU Utilization: The percentage of time the CPU is busy executing tasks.
+
+Throughput: The number of processes completed per unit of time.
+
+Turnaround Time: The total time from process submission to completion (Waiting Time + Execution Time).
+
+Waiting Time: The total time a process spends waiting in the ready queue.
+
+Response Time: The time from when a request is submitted until the first response is produced.
+--------------------------------------------------------------------------------------------------------------------------
+
+
+2. Scheduling Concepts
+--------------------------------------------------------------------------------------------------------------------------
+Preemptive Scheduling: The OS can interrupt a running process to give the CPU to another process (e.g., Round Robin).
+
+Non-Preemptive Scheduling: A process keeps the CPU until it terminates or switches to a waiting state (e.g., FCFS).
+
+Context Switch: The process of saving the state of a running process and loading the state of the next process to be executed.
+
+Dispatcher: The module that gives control of the CPU to the process selected by the short-term scheduler.
+
+Ready Queue: A set of all processes residing in main memory, ready and waiting to execute.
+--------------------------------------------------------------------------------------------------------------------------
+
+
+3. Common Algorithms
+--------------------------------------------------------------------------------------------------------------------------
+First-Come, First-Served (FCFS): Processes are executed in the order they arrive.
+
+Shortest Job First (SJF): The process with the smallest execution time is chosen next.
+
+Priority Scheduling: Each process is assigned a priority; the CPU is allocated to the process with the highest priority.
+
+Round Robin (RR): Each process is given a small unit of CPU time (time quantum) in a circular queue.
+
+Multilevel Queue: The ready queue is partitioned into separate queues (e.g., foreground and background) with different scheduling needs.
+--------------------------------------------------------------------------------------------------------------------------
+
+
+4. Scheduling-Related Issues and Concepts
+--------------------------------------------------------------------------------------------------------------------------
+Starvation: A situation where a process is perpetually denied the necessary resources (like CPU time) to proceed because other processes are constantly being prioritized.
+   
+Aging: A technique used to prevent starvation by gradually increasing the priority of processes that have been waiting in the system for a long time.
+
+Deadlock: A condition where two or more processes are unable to proceed because each is waiting for a resource held by another, creating a cycle of dependencies. 
+    While a general OS concept, it's highly relevant to how processes contend for CPU and other resources due to scheduling.
+
+Livelock: Similar to deadlock, but the processes' states constantly change in response to each other without making any actual progress.
+
+Thrashing: A state where the system spends more time swapping pages in and out of memory than executing actual instructions, 
+    often triggered by excessive multitasking and memory pressure, which can be influenced by scheduling decisions.
+--------------------------------------------------------------------------------------------------------------------------

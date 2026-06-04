@@ -1,6 +1,5 @@
 SRTF // Shortest Remaining Time First // Preemptive
 
-
 Numerical Example:
 --------------------------------------
 | P.No.| AT | BT | CT | TT | WT | RT |

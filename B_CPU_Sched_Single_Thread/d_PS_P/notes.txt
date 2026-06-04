@@ -1,6 +1,5 @@
 Priority Scheduling // Preemptive Algorithm
 
-
 Numerical Example: (higher num, higher priority)
 -------------------------------------------
 | P.No.| Pr | AT | BT | CT | TT | WT | RT |

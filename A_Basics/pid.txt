@@ -1,0 +1,37 @@
+PID: A process id is a unique numerical identifier assigned to active processes
+     It serves as a crucial handle for the OS to manage, track and interact with individual running programs
+
+Purpose and Functions:
+- unique identification
+- resource management
+- process control
+- security and permissions
+
+
+Lifecycle and Assignment:
+- Creation: 
+when a new process is initialised (eg. launching an app), the kernel assigns it the next available unused PID
+
+- Uniqueness:
+at any specific moment, no two active processes will have the same PID
+
+- Recyling: 
+when a process terminates, its PID is released and can eventually be reused by a new process
+the numbers are available in range as pid, and once they reach the end, they are assined from start again
+
+
+Parent Process PID (PPID):
+- every process (except pid 1) has a parent process PID, which indicates the PID of the process that created it
+- this forms a process hierarchy, often visualised as a tree, where pid 1 is the root
+- (PID 1: first user-space process started by kernel, "systemd". system initialisation)
+
+
+Common Interactions with PIDs:
+Viewing Processes:
+    - Utilities like ps, top, htop, or Task Manager (on Windows) display a list of running processes along with their PIDs, PPIDs, CPU usage, memory consumption, etc.
+
+    - Sending Signals: Commands like kill <PID> are used to send signals to a specific process to control its behavior (e.g., kill <PID> typically sends a termination signal, requesting the process to shut down gracefully).
+
+    - Debugging and Monitoring: PIDs are essential for developers and system administrators to identify and debug issues, monitor resource usage, and troubleshoot system behavior.
+
+    - /proc Filesystem (Linux): On Linux, the /proc filesystem provides a virtual interface to kernel data structures. For every running process with PID N, there's a directory /proc/N containing detailed information about that process, such as its status, command line arguments, environment variables, and open file descriptors.

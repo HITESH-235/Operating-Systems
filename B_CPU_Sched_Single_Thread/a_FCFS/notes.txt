@@ -1,6 +1,5 @@
 FCFS // First-Come-First-Serve // Preeemptive
 
-
 Numerical Example:
 --------------------------------------
 | P.No.| AT | BT | CT | TT | WT | RT |

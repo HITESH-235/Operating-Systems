@@ -48,7 +48,7 @@ public class roundRobin {
 
     public static void main(String[] args) {
         Object[] res = round_robin(new Object[][]{{0,5,"P1"}, {1,4,"P2"}, {2,2,"P3"}, {4,1,"P4"}}, 2);
-        System.out.println(res[0].toString());
-        System.out.println(res[1].toString());
+        System.out.println(res[0]);
+        System.out.println(res[1]);
     }
 }
