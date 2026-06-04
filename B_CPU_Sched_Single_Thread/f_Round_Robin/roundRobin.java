@@ -1,3 +1,6 @@
+// Round Robin // Preemptive Algorithm
+// Process: [AT, BT, pid]
+
 package B_CPU_Sched_Single_Thread.f_Round_Robin;
 import java.util.*;
 public class roundRobin {
@@ -13,6 +16,8 @@ public class roundRobin {
         for (Object[] p: processes) rem_bt.put((String) p[2], (Integer) p[1]);
         
         while (!rem_bt.isEmpty()) {
+
+            // fill all the arrived processes into ready queue
             while (i<n && (Integer) processes[i][0] <= t) {
                 readyQ.offer(processes[i]);
                 i++;
@@ -23,14 +28,15 @@ public class roundRobin {
                 continue;
             }
             
+            // choose process that arrived earliest, i.e. first in queue
             Object[] curr = readyQ.poll();
             String pid = (String) curr[2];
-            int runTime = Math.min(rem_bt.get(pid), tq);
+            int runTime = Math.min(rem_bt.get(pid), tq); // cannot run more than tq
             t += runTime;
             rem_bt.put(pid, rem_bt.get(pid)-runTime);
             gantt.add(pid);
-            
 
+            // add processes that should come in readyQ while current process ran
             while (i<n && (Integer) processes[i][0] <= t) {
                 readyQ.offer(processes[i]);
                 i++;
@@ -39,6 +45,7 @@ public class roundRobin {
                 rem_bt.remove(pid);
                 table.put(pid, t);
             }
+            // if current process has bt left, put it at back of queue
             else readyQ.offer(curr);
             
         }
