@@ -1,0 +1,190 @@
+█░█ █▀ █▀▀ █▀█   █░█ █▀   █▄▀ █▀▀ █▀█ █▄░█ █▀▀ █░░   █▀ █▀█ ▄▀█ █▀▀ █▀▀
+█▄█ ▄█ ██▄ █▀▄   █▄█ ▄█   █░█ ██▄ █▀▄ █░▀█ ██▄ █▄▄   ▄█ █▀▀ █▀█ █▄▄ ██▄
+--------------------------------------------------------------------------------------------------------------------------
+Reason for User Space and Kernel Space Separation
+
+Protection:
+- Prevents applications from directly accessing hardware
+- Prevents buggy or malicious programs from corrupting the system
+
+Stability:
+- Isolates applications from the operating system
+- Prevents application crashes from bringing down the entire system
+
+Resource Management:
+- Gives the kernel exclusive control over hardware resources
+- Allows fair and efficient allocation of CPU, memory, and I/O devices
+--------------------------------------------------------------------------------------------------------------------------
+
+
+█▀▀ █▀█ █░█   █▀▄▀█ █▀█ █▀▄ █▀▀ █▀
+█▄▄ █▀▀ █▄█   █░▀░█ █▄█ █▄▀ ██▄ ▄█
+--------------------------------------------------------------------------------------------------------------------------
+Kernel Mode:
+- CPU has unrestricted access to hardware and memory
+- Can execute privileged instructions
+- Operating system kernel runs in this mode
+
+User Mode:
+- CPU operates with restricted privileges
+- Cannot execute privileged instructions directly
+- User applications run in this mode
+- Attempting privileged operations triggers a trap to the kernel
+
+Privileged Instructions:
+- Instructions that directly access hardware or critical system resources
+- Examples:
+    - I/O operations
+    - Memory management operations
+    - Interrupt configuration
+    - Process management operations
+--------------------------------------------------------------------------------------------------------------------------
+
+
+█▀ █░█░█ █ ▀█▀ █▀▀ █░█ █ █▄░█ █▀▀   █▀▄▀█ █▀█ █▀▄ █▀▀ █▀
+▄█ ▀▄▀▄▀ █ ░█░ █▄▄ █▀█ █ █░▀█ █▄█   █░▀░█ █▄█ █▄▀ ██▄ ▄█
+--------------------------------------------------------------------------------------------------------------------------
+Boot Sequence:
+1. System powers on
+2. CPU starts in Kernel Mode
+3. Operating system loads and initializes
+4. CPU switches to User Mode
+5. User applications begin execution
+
+System Call Flow:
+1. Application runs in User Mode
+2. Application requests a privileged service
+3. System call instruction executes
+4. CPU switches to Kernel Mode
+5. Kernel performs the requested operation
+6. Kernel returns the result
+7. CPU switches back to User Mode
+8. Application continues execution
+
+Examples of System Calls:
+- Reading files
+- Writing files
+- Creating processes
+- Allocating memory
+- Network communication
+--------------------------------------------------------------------------------------------------------------------------
+
+
+█▀█ █▀   ▄▀█ █▄▄ █▀ ▀█▀ █▀█ ▄▀█ █▀▀ ▀█▀ █ █▀█ █▄░█ █▀
+█▄█ ▄█   █▀█ █▄█ ▄█ ░█░ █▀▄ █▀█ █▄▄ ░█░ █ █▄█ █░▀█ ▄█
+--------------------------------------------------------------------------------------------------------------------------
+System Call Interface:
+- Controlled gateway between User Space and Kernel Space
+- Allows applications to request kernel services safely
+
+Protected Resources:
+- Memory
+- CPU time
+- Files
+- Devices
+- Network resources
+
+OS Abstractions Enabled by Separation:
+- Processes
+- Virtual Memory
+- Files
+- Devices
+- Sockets
+--------------------------------------------------------------------------------------------------------------------------
+
+
+█ █▄░█ ▀█▀ █▀▀ █▀█ █▄░█ ▄▀█ █░░   █▀▄ ▄▀█ ▀█▀ ▄▀█   █▀ ▀█▀ █▀█ █░█ █▀▀ ▀█▀ █░█ █▀█ █▀▀ █▀
+█ █░▀█ ░█░ ██▄ █▀▄ █░▀█ █▀█ █▄▄   █▄▀ █▀█ ░█░ █▀█   ▄█ ░█░ █▀▄ █▄█ █▄▄ ░█░ █▄█ █▀▄ ██▄ ▄█
+--------------------------------------------------------------------------------------------------------------------------
+Page Tables:
+- Maintained by the kernel
+- Map virtual addresses to physical addresses
+- Store memory access permissions
+- Used by the MMU to enforce memory protection
+
+Interrupt Descriptor Table (IDT):
+- Maps interrupts and traps to kernel handlers
+- Used by the CPU during interrupts and system calls
+- Allows the CPU to locate the correct kernel routine
+
+Trap:
+- Controlled transfer of execution from User Mode to Kernel Mode
+- Occurs during system calls, exceptions, or faults
+
+MMU (Memory Management Unit):
+- Hardware component responsible for address translation
+- Checks memory access permissions
+- Works with page tables to protect memory
+--------------------------------------------------------------------------------------------------------------------------
+
+
+█▀▄ █ ▄▀█ █▀▀ █▀█ ▄▀█ █▀▄▀█
+█▄▀ █ █▀█ █▄█ █▀▄ █▀█ █░▀░█
+--------------------------------------------------------------------------------------------------------------------------
+
+Memory Layout
+
++----------------------------------+
+|          Kernel Space            |
+|----------------------------------|
+| Kernel Code                      |
+| Device Drivers                   |
+| System Call Handlers             |
+| Kernel Data Structures           |
++----------------------------------+
+|           User Space             |
+|----------------------------------|
+| Application Code                 |
+| User Libraries                   |
+| Stack                            |
+| Heap                             |
++----------------------------------+
+
+System Call Execution
+
+User Application
+        │
+        ▼
+System Call
+        │
+        ▼
+CPU Triggers Trap
+        │
+        ▼
+Switch to Kernel Mode
+        │
+        ▼
+Kernel Executes Service
+        │
+        ▼
+Return to User Mode
+        │
+        ▼
+Application Continues
+
+Complete View
+
+User Space
+    │
+    ▼
+System Call Interface
+    │
+    ▼
+Kernel Space
+├── Process Management
+├── Memory Management
+├── File Systems
+├── Device Drivers
+├── Scheduling
+├── IPC
+└── Security
+    │
+    ▼
+Hardware
+├── CPU
+├── MMU
+├── RAM
+├── Storage
+├── Network Card
+└── Other Devices
+--------------------------------------------------------------------------------------------------------------------------

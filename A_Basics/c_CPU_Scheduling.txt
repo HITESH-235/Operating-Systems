@@ -1,0 +1,183 @@
+█▀▀ █▀█ █░█   █▀ █▀▀ █░█ █▀▀ █▀▄ █░█ █░░ █ █▄░█ █▀▀
+█▄▄ █▀▀ █▄█   ▄█ █▄▄ █▀█ ██▄ █▄▀ █▄█ █▄▄ █ █░▀█ █▄█
+--------------------------------------------------------------------------------------------------------------------------
+CPU Utilization:
+- Percentage of time the CPU is busy executing processes
+
+Throughput:
+- Number of processes completed per unit time
+
+Turnaround Time (TAT):
+- Total time from process arrival to completion
+- TAT = Completion Time - Arrival Time
+
+Waiting Time (WT):
+- Total time spent waiting in the Ready Queue
+- WT = TAT - Burst Time
+
+Response Time (RT):
+- Time from process arrival until first CPU allocation
+
+Goal:
+- Maximize CPU Utilization
+- Maximize Throughput
+- Minimize TAT
+- Minimize WT
+- Minimize RT
+--------------------------------------------------------------------------------------------------------------------------
+
+█▀ █▀▀ █░█ █▀▀ █▀▄ █░█ █░░ █ █▄░█ █▀▀
+▄█ █▄▄ █▀█ ██▄ █▄▀ █▄█ █▄▄ █ █░▀█ █▄█
+--------------------------------------------------------------------------------------------------------------------------
+Scheduler:
+- Selects the next process to execute
+
+Ready Queue:
+- Collection of processes ready to execute
+
+Dispatcher:
+- Gives CPU control to the selected process
+- Performs context switching
+
+Context Switch:
+- Saves current process state
+- Loads next process state
+- Introduces overhead
+
+Preemptive Scheduling:
+- OS can interrupt a running process
+- Examples:
+    - Round Robin
+    - Preemptive Priority
+
+Non-Preemptive Scheduling:
+- Process keeps CPU until completion or blocking
+- Examples:
+    - FCFS
+    - Non-Preemptive SJF
+--------------------------------------------------------------------------------------------------------------------------
+
+█▀ █▀▀ █░█ █▀▀ █▀▄ █░█ █░░ █ █▄░█ █▀▀   ▄▀█ █░░ █▀▀ █▀█ █▀█ █ ▀█▀ █░█ █▀▄▀█ █▀
+▄█ █▄▄ █▀█ ██▄ █▄▀ █▄█ █▄▄ █ █░▀█ █▄█   █▀█ █▄▄ █▄█ █▄█ █▀▄ █ ░█░ █▀█ █░▀░█ ▄█
+--------------------------------------------------------------------------------------------------------------------------
+FCFS:
+- Processes execute in arrival order
+- Non-preemptive
+
+Advantages:
+- Simple
+- Easy to implement
+
+Disadvantages:
+- Convoy Effect
+- High waiting time
+
+--------------------------------------------------------
+SJF:
+- Smallest burst time executes first
+- Can be preemptive or non-preemptive
+
+Advantages:
+- Optimal average waiting time
+
+Disadvantages:
+- Burst time prediction required
+- Can cause starvation
+
+--------------------------------------------------------
+Priority Scheduling:
+- Highest-priority process executes first
+
+Advantages:
+- Important tasks execute first
+
+Disadvantages:
+- Starvation possible
+
+Solution:
+- Aging
+
+--------------------------------------------------------
+Round Robin (RR):
+- Each process receives a Time Quantum
+- Processes execute in circular order
+- Preemptive
+
+Advantages:
+- Fair
+- Good response time
+
+Disadvantages:
+- Excessive context switching if quantum is too small
+
+--------------------------------------------------------
+Multilevel Queue:
+- Ready Queue divided into multiple queues
+- Different queues may use different algorithms
+
+Advantages:
+- Supports different process types
+
+Disadvantages:
+- Lower-priority queues may starve
+--------------------------------------------------------------------------------------------------------------------------
+
+█▀ █▀▀ █░█ █▀▀ █▀▄ █░█ █░░ █ █▄░█ █▀▀   █ █▀ █▀ █░█ █▀▀ █▀
+▄█ █▄▄ █▀█ ██▄ █▄▀ █▄█ █▄▄ █ █░▀█ █▄█   █ ▄█ ▄█ █▄█ ██▄ ▄█
+--------------------------------------------------------------------------------------------------------------------------
+Starvation:
+- Process waits indefinitely because others keep getting priority
+
+Aging:
+- Gradually increases priority of waiting processes
+- Prevents starvation
+
+Deadlock:
+- Processes wait forever for resources held by each other
+
+Livelock:
+- Processes keep changing state without making progress
+
+Thrashing:
+- System spends more time swapping pages than executing processes
+--------------------------------------------------------------------------------------------------------------------------
+
+Important Terms
+
+Arrival Time (AT):
+- Time when process enters the Ready Queue
+
+Burst Time (BT):
+- CPU execution time required
+
+Completion Time (CT):
+- Time when process finishes execution
+
+Turnaround Time (TAT):
+- CT - AT
+
+Waiting Time (WT):
+- TAT - BT
+
+Response Time (RT):
+- First CPU Allocation Time - AT
+--------------------------------------------------------------------------------------------------------------------------
+
+Process Life Cycle
+
+New
+ │
+ ▼
+Ready
+ │
+ ▼
+Running
+ │
+ ├──► Waiting/Blocked
+ │          │
+ │          ▼
+ └──────── Ready
+ │
+ ▼
+Terminated
+--------------------------------------------------------------------------------------------------------------------------

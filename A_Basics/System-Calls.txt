@@ -1,0 +1,230 @@
+█▀ █▄█ █▀ ▀█▀ █▀▀ █▀▄▀█   █▀▀ ▄▀█ █░░ █░░ █▀
+▄█ ░█░ ▄█ ░█░ ██▄ █░▀░█   █▄▄ █▀█ █▄▄ █▄▄ ▄█
+--------------------------------------------------------------------------------------------------------------------------
+- Interface between User Space and Kernel Space
+- Controlled gateway for accessing OS services
+- Allow safe execution of privileged operations
+- Prevent direct access to hardware and kernel resources
+
+Critical Security Boundary:
+- Separates applications from the OS
+- Protects kernel memory and resources
+- Forces privileged operations through kernel validation
+
+Abstraction and Portability:
+- Hides hardware-specific details
+- Provides a consistent API across platforms
+- Allows programs to run without hardware knowledge
+
+Resource Management:
+- Controls CPU, memory, files, and devices
+- Prevents resource conflicts
+- Enables fair resource sharing
+
+Privileged Instructions:
+- Require Kernel Mode execution
+- Cannot be executed directly by user programs
+- Examples:
+    - Disk I/O
+    - Page Table modification
+    - Interrupt configuration
+    - Process creation and termination
+--------------------------------------------------------------------------------------------------------------------------
+  
+        System Call Flow
+
+        User Program
+            ↓
+        Prepare Arguments
+            ↓
+        System Call Instruction
+            ↓
+        Trap to Kernel
+            ↓
+        Kernel Executes Request
+            ↓
+        Return Result
+            ↓
+        Resume User Program
+--------------------------------------------------------------------------------------------------------------------------
+
+1. User Prepares Arguments
+- Application determines the required OS service
+- System Call Number identifies the requested service
+- Arguments are placed in CPU Registers, User Buffers, or Stack Memory
+- Examples:
+    - File Descriptor
+    - Buffer Address
+    - Process ID
+    - Network Address
+    - Bytes to Read/Write
+--------------------------------------------------------
+2. System Call Instruction (Trap)
+- Synchronous software-generated event
+- Transfers execution to the kernel
+
+CPU Actions:
+- User Mode → Kernel Mode
+- Save:
+    - Program Counter (PC)
+    - Stack Pointer (SP)
+    - CPU Registers
+    - Processor Status Information
+- Locate kernel handler using System Call Number
+- Transfer control to kernel
+
+Note:
+- User code cannot switch CPU modes directly
+--------------------------------------------------------
+3. Kernel System Call Interface
+- Kernel identifies the requested system call
+- Retrieves supplied arguments
+
+Validation:
+- Check arguments
+- Verify permissions
+- Validate memory addresses
+
+Operations:
+- Resource Allocation
+- Hardware Interaction
+- Kernel Data Structure Updates
+
+Updates may include:
+- PCB
+- File Tables
+- Page Tables
+- Scheduler Structures
+
+During this phase:
+- CPU executes entirely in Kernel Mode
+- Kernel has unrestricted hardware access
+--------------------------------------------------------
+4. Preparing Return Values
+- Kernel prepares:
+    - Success Value
+    - Error Code
+    - Requested Data
+    - Resource Handles
+
+Examples:
+- Bytes Read
+- Process ID
+- File Descriptor
+--------------------------------------------------------
+5. Return From System Call
+- Restore user context
+- Restore PC, SP, and Registers
+- Kernel Mode → User Mode
+- Return control to application
+
+CPU resumes execution from the next instruction
+--------------------------------------------------------------------------------------------------------------------------
+
+Physical View:
+
+User Code
+    ↓
+Kernel Code
+    ↓
+Hardware Access
+    ↓
+Kernel Code
+    ↓
+User Code
+--------------------------------------------------------
+Normal Function Call:
+- User Code → User Code
+
+System Call:
+- User Code → Kernel Code → Hardware → Kernel Code → User Code
+--------------------------------------------------------------------------------------------------------------------------
+
+System Call Abstractions
+
+Hardware-Specific Abstraction:
+- Hides hardware-specific implementation details from applications
+- Applications interact through standard system call APIs
+- Kernel translates requests into device-specific operations
+- Allows the same program to run on different hardware architectures
+
+Kernel Internals Abstraction:
+- Hides internal kernel implementation details
+- Applications do not need to know about kernel data structures or algorithms
+- Kernel decides how resources are allocated and managed
+- Changes to kernel internals usually do not affect application code
+
+Privilege Management Abstraction:
+- Provides controlled access to privileged operations
+- Ensures only the kernel can execute sensitive instructions
+- Enforces protection and security policies
+- Prevents user programs from directly accessing protected resources
+--------------------------------------------------------------------------------------------------------------------------
+
+Internal Data Structures
+
+System Call Table:
+- Kernel data structure mapping System Call Numbers to kernel handlers
+- Used to locate the correct kernel routine during a system call
+- Acts as a dispatch table for system call execution
+
+Process Control Block (PCB):
+- Stores process execution state
+- Used to save and restore context during mode switches
+- Contains:
+    - Program Counter (PC)
+    - Stack Pointer (SP)
+    - CPU Registers
+    - Process State
+    - Scheduling Information
+    - Memory Information
+--------------------------------------------------------------------------------------------------------------------------
+
+Root View of System Call Flow
+
+User Space
+│
+├── Application Code
+│
+├── Prepare Arguments
+│     ├── System Call Number
+│     ├── File Descriptor
+│     ├── Memory Addresses
+│     └── Other Parameters
+│
+└── Execute System Call Instruction
+      │
+      ▼
+      Trap
+      │
+      ▼
+Kernel Space
+│
+├── System Call Handler
+│
+├── Lookup System Call Number
+│
+├── Retrieve Arguments
+│
+├── Validate Arguments
+│
+├── Perform Requested Operation
+│     ├── Resource Allocation
+│     ├── Hardware Access
+│     ├── Device Driver Interaction
+│     └── Kernel Data Structure Updates
+│
+├── Prepare Return Value
+│
+└── Restore User Context
+      │
+      ▼
+Return + Mode Switch
+      │
+      ▼
+User Space
+│
+├── Application Receives Return Value
+│
+└── Execution Resumes From Next Instruction
+--------------------------------------------------------------------------------------------------------------------------

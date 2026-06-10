@@ -1,0 +1,98 @@
+PCB: (Process Control Block)
+- it is a kernel data strucure maintained by the operating system, that keeps track of every process running
+- it contains all info required by the OS to manage, suspend, schedule, and resume a process
+- created when a process is created and deleted when the process is terminated
+- stored in kernel space **
+- every process has exactly one pcb
+
+
+Purpose of PCB:
+- Identify a process uniquely.
+- Track the current state of a process.
+- Perform context switching.
+- Manage process scheduling.
+- Manage memory allocation.
+- Manage I/O and open files.
+- Resume execution after interruption.
+
+
+PCB structure:
++---------------------------+
+| Process ID (PID)          |
++---------------------------+
+| Process State             |
++---------------------------+
+| Program Counter           |
++---------------------------+
+| CPU Registers             |
++---------------------------+
+| Scheduling Information    |
++---------------------------+
+| Memory Information        |
++---------------------------+
+| I/O Status Information    |
++---------------------------+
+| Accounting Information    |
++---------------------------+
+
+
+Life Cycle of a PCB:
+
+1.Creation:
+Process Created -> PCB Allocated -> Process Scheduled
+2. Termination:
+Process Finished -> Resources released -> PCB destroyed
+
+
+Components of a PCB:
+
+1. Process Identification Information:
+- Process ID, 
+- Parent process ID, 
+- User ID, 
+- Group ID
+
+2. Process State:
+- new
+- ready
+- running
+- waiting/blocked
+- terminated
+
+3. Program Counter:
+- contains the info of the next process to be executed
+- this info is saved and restored during the CPU context switching
+
+4. CPU register information:
+- General purpose
+- stack pointer 
+- process counter
+- process status word
+
+5. CPU Scheduling Information
+
+- Process priority
+- Scheduling queue pointers
+- CPU burst information
+- Time quantum information
+
+6. Memory Management Information
+
+- Base register
+- Limit register
+- Page tables
+- Segment tables
+- Memory allocation details
+
+7. I/O Status Information
+
+- Open files
+- Allocated devices
+- Pending I/O requests
+
+8. Accounting Information
+
+- CPU usage
+- Execution time
+- Process creation time
+- User account information

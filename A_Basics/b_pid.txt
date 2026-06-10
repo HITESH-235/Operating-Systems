@@ -1,0 +1,80 @@
+█▀█ █ █▀▄   ▄▀ █▀█ █▀█ █▀█ █▀▀ █▀▀ █▀ █▀   █ █▀▄ ▀▄
+█▀▀ █ █▄▀   ▀▄ █▀▀ █▀▄ █▄█ █▄▄ ██▄ ▄█ ▄█   █ █▄▀ ▄▀
+--------------------------------------------------------------------------------------------------------------------------
+- Unique numerical identifier assigned to each running process
+- Used by the kernel to identify, manage, and interact with processes
+- No two active processes can have the same PID
+
+Purpose:
+- Unique identification
+- Resource management
+- Process control
+- Security and permissions
+
+Lifecycle:
+- Assigned by the kernel when a process is created
+- Remains unique while the process is active
+- Released when the process terminates
+- Can be reused by future processes
+- PID values are selected from a predefined range
+
+PPID (Parent Process ID):
+- PID of the process that created the current process
+- Used to maintain process hierarchy
+- Every process except PID 1 has a parent process
+
+PID 1:
+- First user-space process started by the kernel
+- Usually systemd on modern Linux systems
+- Root of the process hierarchy
+
+Common Operations:
+- View processes using ps, top, htop
+- Send signals using kill <PID>
+- Monitor CPU and memory usage
+- Debug and trace processes
+
+/proc Filesystem:
+- Virtual filesystem containing process information
+- Process with PID N has directory /proc/N
+- Contains status, memory info, open files, threads, and command-line arguments
+--------------------------------------------------------------------------------------------------------------------------
+
+Process Hierarchy
+
+Kernel
+  │
+  ▼
+PID 1 (systemd)
+  │
+  ├── PID 100 (Display Manager)
+  │
+  ├── PID 250 (Terminal)
+  │      │
+  │      └── PID 400 (bash)
+  │               │
+  │               ├── PID 550 (java)
+  │               └── PID 600 (vim)
+  │
+  └── PID 150 (Network Service)
+
+Parent Process
+      │
+      ▼
+Creates Child
+      │
+      ▼
+Kernel Assigns PID
+      │
+      ▼
+Process Executes
+      │
+      ▼
+Process Terminates
+      │
+      ▼
+PID Released
+      │
+      ▼
+PID Can Be Reused
+--------------------------------------------------------------------------------------------------------------------------

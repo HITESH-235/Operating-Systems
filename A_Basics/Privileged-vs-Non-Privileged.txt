@@ -1,0 +1,202 @@
+█▀█ █▀█ █ █░█ █ █░░ █▀▀ █▀▀ █▀▀ █▀▄   █░█ █▀   █▄░█ █▀█ █▄░█ ▄▄ █▀█ █▀█ █ █░█ █ █░░ █▀▀ █▀▀ █▀▀ █▀▄
+█▀▀ █▀▄ █ ▀▄▀ █ █▄▄ ██▄ █▄█ ██▄ █▄▀   ▀▄▀ ▄█   █░▀█ █▄█ █░▀█ ░░ █▀▀ █▀▄ █ ▀▄▀ █ █▄▄ ██▄ █▄█ ██▄ █▄▀
+
+--------------------------------------------------------------------------------------------------------------------------
+Why Privileged Instructions Exist:
+
+Problems if User Programs Had Full Hardware Access:
+- A process could take complete control of the system
+- Sensitive user or kernel data could be accessed
+- Critical OS data structures could be modified
+- A buggy program could crash the entire system
+- Fair allocation of CPU, memory, and devices would become impossible
+- Security and isolation between processes would break down
+--------------------------------------------------------------------------------------------------------------------------
+
+CPU Enforcement Mechanism
+
+Privilege Level Register / Mode Bit:
+- Special hardware bit maintained by the CPU
+- Indicates the current execution mode
+
+Modes:
+- User Mode
+- Kernel Mode
+
+CPU checks this bit before executing privileged instructions
+
+Examples of Privileged Instructions:
+- Disk I/O operations
+- Page Table modification
+- Interrupt configuration
+- Memory management operations
+- Process management operations
+--------------------------------------------------------------------------------------------------------------------------
+
+Hardware Trap Mechanism
+
+- CPU hardware detects privileged instruction execution in User Mode
+- Hardware automatically generates a Trap (Protection Fault / Exception)
+- Trap is a synchronous event caused by the currently executing instruction
+
+CPU Actions:
+- Save current execution context
+- Switch User Mode → Kernel Mode
+- Transfer control to the Kernel Exception Handler
+
+User Program
+      │
+      ▼
+Privileged Instruction
+      │
+      ▼
+Protection Fault / Trap
+      │
+      ▼
+Kernel Exception Handler
+--------------------------------------------------------------------------------------------------------------------------
+
+Kernel Response
+
+Kernel Exception Handler:
+- Determines the type of fault
+- Identifies the offending process
+- Examines the instruction that caused the exception
+
+Typical Response:
+- Reject the illegal operation
+- Terminate the offending process
+- Generate an error such as:
+    - Segmentation Fault
+    - Illegal Instruction
+    - General Protection Fault
+
+Purpose:
+- Prevent further system damage
+- Preserve operating system integrity
+- Protect other processes and resources
+--------------------------------------------------------------------------------------------------------------------------
+
+Normal System Call vs Illegal Privileged Instruction
+
+Normal System Call:
+User Program
+    │
+    ▼
+System Call Instruction
+    │
+    ▼
+Kernel Mode
+    │
+    ▼
+Kernel Service
+    │
+    ▼
+Return to User Mode
+
+Result:
+- Request succeeds through a controlled path
+
+--------------------------------------------------------
+
+Illegal Privileged Instruction:
+
+User Program
+    │
+    ▼
+Privileged Instruction
+    │
+    ▼
+Hardware Trap
+    │
+    ▼
+Kernel Exception Handler
+    │
+    ▼
+Process Terminated
+
+Result:
+- Request rejected
+- Process may be killed
+--------------------------------------------------------------------------------------------------------------------------
+
+Key Insight
+
+System Call:
+- User asks the kernel to perform a privileged operation
+
+Privileged Instruction:
+- Actual low-level operation requiring Kernel Mode
+
+User programs cannot execute privileged instructions directly
+They must request the kernel through system calls
+--------------------------------------------------------------------------------------------------------------------------
+
+Examples of Privileged Instructions:
+- Enable/Disable Interrupts
+- Modify CPU Mode Bit / Privilege Level
+- Change MMU Registers
+- Load Page Table Base Register
+- Clear Internal CPU Caches
+- Execute Halt Instruction
+- Direct I/O Port Access
+- Write to Disk Controller Registers
+- Configure Interrupt Controllers
+- Modify Hardware Device State
+
+Examples of Non-Privileged Instructions:
+- Arithmetic Operations
+- Logical Operations
+- Data Movement Between Registers
+- Reading Non-Sensitive CPU Registers
+- Function Calls
+- Stack Operations
+- Branching and Loops
+- User-Space Memory Access
+--------------------------------------------------------------------------------------------------------------------------
+
+Internal Data Structures Used During Protection Handling
+
+Interrupt Vector Table (IVT) / Interrupt Descriptor Table (IDT):
+- Contains pointers to kernel handlers for interrupts, traps, and exceptions
+- Includes handlers for Privileged Instruction Faults
+- CPU consults this table whenever a trap or exception occurs
+- Used to locate the correct kernel routine automatically
+
+Process Control Block (PCB):
+- Stores process execution information
+- Used by the kernel to identify the offending process
+- Contains:
+    - Process State
+    - CPU Registers
+    - Program Counter
+    - Scheduling Information
+    - Memory Information
+
+During a Privileged Instruction Violation:
+- Kernel identifies the process through its PCB
+- PCB may be updated to a Terminated state
+- Fault information may be recorded for debugging and logging
+- Resources owned by the process are released
+-------------------------------------------------------------------------------------------------
+
+Protection Fault Flow
+
+User Program
+    ↓
+Privileged Instruction
+    ↓
+CPU Checks Mode Bit
+    ├── Kernel Mode → Execute Instruction
+    └── User Mode
+            ↓
+      Protection Fault
+            ↓
+       IDT Lookup
+            ↓
+      Kernel Handler
+            ↓
+        Update PCB
+            ↓
+    Terminate / Reject
+--------------------------------------------------------------------------------------------------------------------------

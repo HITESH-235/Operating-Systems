@@ -1,0 +1,241 @@
+█▀█ ▄▀█ █▀█ ▀█▀ █ ▀█▀ █ █▀█ █▄░█ █ █▄░█ █▀▀   ▄▀█ █▄░█ █▀▄   ▀█▀ █▄█ █▀█ █▀▀ █▀
+█▀▀ █▀█ █▀▄ ░█░ █ ░█░ █ █▄█ █░▀█ █ █░▀█ █▄█   █▀█ █░▀█ █▄▀   ░█░ ░█░ █▀▀ ██▄ ▄█
+--------------------------------------------------------------------------------------------------------------------------
+PARTITIONING: - A memory management technique used to allocate RAM among multiple processes
+- Memory is divided into partitions, and each process is assigned a partition
+- Developed to allow multiple processes to reside in memory simultaneously
+- Two main approaches: FIXED & DYNAMIC Partitioning
+
+Why do we need partitioning?
+Many processes want memory simultaneously: say:
+Chrome      -> 2 GB
+VS Code     -> 1 GB
+Spotify     -> 500 MB
+Game        -> 6 GB
+OS          -> 2 GB
+The OS must decide: - where to place each process in RAM
+                    - how much memory to give it
+                    - how to prevent processes from overwriting each other
+so with parttioning: RAM:
++------------------+
+| Process A        |
++------------------+
+| Process B        |
++------------------+
+| Process C        |
++------------------+
+(Memory is divided into chunks called partitions, each process occupies one of such)
+--------------------------------------------------------
+
+
+FIXED PARTITIONING
+
+- Memory is divided into fixed-size partitions before execution
+- Partition sizes remain unchanged during execution
+- Each process is assigned a partition
+- A process can only be loaded if it fits within a partition
+
+Advantages:
+- Simple to implement
+- Fast memory allocation
+- Easy memory protection
+- Low management overhead
+
+Disadvantages:
+- Internal fragmentation (wasted memory inside an allocated partition)
+- Poor memory utilization
+- Limited number of processes
+- Inflexible partition sizes
+- Large processes may not fit even when total free memory is sufficient
+--------------------------------------------------------
+
+
+DYNAMIC PARTITIONING
+
+- Partitions are created dynamically according to process requirements
+- Memory is allocated based on actual process size
+- Partition sizes can vary
+- More efficient than fixed partitioning
+
+Advantages:
+- Better memory utilization
+- Reduced internal fragmentation
+- Flexible memory allocation
+- Can accommodate processes of different sizes
+
+Disadvantages:
+- External fragmentation (free memory existing but scattered in small non-contiguous blocks)
+- More complex memory management
+- Slower allocation compared to fixed partitioning
+- May require compaction
+--------------------------------------------------------------------------------------------------------------------------
+
+
+█▀█ ▄▀█ █▀█ ▀█▀ █ ▀█▀ █ █▀█ █▄░█ █ █▄░█ █▀▀   ▄▀█ █▄░█ █▀▄   █▀▄▀█ █▀▀ █▀▄▀█ █▀█ █▀█ █▄█    ▄▀█ █░░ █░░ █▀█ █▀▀ ▄▀█ ▀█▀ █ █▀█ █▄░█   ▄▀█ █░░ █▀▀ █▀█ █▀█ █ ▀█▀ █░█ █▀▄▀█ █▀
+█▀▀ █▀█ █▀▄ ░█░ █ ░█░ █ █▄█ █░▀█ █ █░▀█ █▄█   █▀█ █░▀█ █▄▀   █░▀░█ ██▄ █░▀░█ █▄█ █▀▄ ░█░    █▀█ █▄▄ █▄▄ █▄█ █▄▄ █▀█ ░█░ █ █▄█ █░▀█   █▀█ █▄▄ █▄█ █▄█ █▀▄ █ ░█░ █▀█ █░▀░█ ▄█
+--------------------------------------------------------------------------------------------------------------------------
+PARTITIONING AND MEMORY ALLOCATION ALGORITHMS
+
+- Used in Dynamic Partitioning systems
+- Dynamic Partitioning creates variable-sized free memory blocks (holes)
+- When a process arrives, the OS must decide which free block should be allocated
+- First Fit, Best Fit, and Worst Fit are strategies used to make this decision
+- After allocation, the remaining part of the free block becomes a new free block that can be used by future processes
+--------------------------------------------------------
+
+1. FIRST FIT
+- Searches memory from the beginning
+- Allocates the first free block large enough for the process
+- Stops searching once a suitable block is found
+
+Advantages:
+- Simple to implement
+- Fast allocation
+- Low search overhead
+- Works well in practice=
+Disadvantages:
+- Can create many small fragments near the beginning of memory
+- Memory may become fragmented over time
+- May reduce allocation efficiency after long execution periods
+--------------------------------------------------------
+
+2. BEST FIT
+- Searches all available free blocks
+- Selects the smallest block that can accommodate the process
+- Attempts to leave the least unused space after allocation
+
+Advantages:
+- Better memory utilization
+- Minimizes immediate leftover space
+- Can reduce wasted memory in individual allocations
+Disadvantages:
+- Requires searching most or all free blocks
+- Slower allocation
+- Creates many tiny unusable fragments
+- Can increase external fragmentation over time
+--------------------------------------------------------
+
+3. WORST FIT
+- Searches all available free blocks
+- Selects the largest available block
+- Leaves a large remaining free block after allocation
+
+Advantages:
+- Leaves larger free blocks available for future allocations
+- Attempts to avoid creating tiny fragments
+- Large processes may be accommodated more easily later
+Disadvantages:
+- Requires searching all free blocks
+- Slower allocation
+- Poor overall memory utilization
+- Usually performs worse than First Fit and Best Fit in practice
+--------------------------------------------------------
+
+Comparison:
+a. First Fit:
+- First suitable block
+- Fastest allocation
+- Moderate fragmentation
+b. Best Fit:
+- Smallest suitable block
+- Slow allocation
+- Creates many small fragments
+c. Worst Fit:
+- Largest suitable block
+- Slow allocation
+- Often wastes large memory blocks
+--------------------------------------------------------
+
+
+MEMORY HOLE:
+- A contiguous free block of memory available for allocation
+- Created when a process terminates or when a larger free block is partially allocated
+- Also called a free block
+
+e.g.: 1000 KB Free Block -> allocate 300 KB
+Process A = 300 KB
+Free Block = 700 KB
+The remaining 700 KB becomes a new hole that can be allocated to future processes
+--------------------------------------------------------------------------------------------------------------------------
+
+
+█░█ █ █▀█ ▀█▀ █░█ ▄▀█ █░░   █▀▄▀█ █▀▀ █▀▄▀█ █▀█ █▀█ █▄█
+▀▄▀ █ █▀▄ ░█░ █▄█ █▀█ █▄▄   █░▀░█ ██▄ █░▀░█ █▄█ █▀▄ ░█░
+--------------------------------------------------------------------------------------------------------------------------
+- A memory management technique that allows a system to use more memory than the available physical RAM
+- Creates the illusion of a large continuous memory space by combining RAM and secondary storage (disk/SSD)
+- When RAM becomes full, less frequently used pages can be temporarily moved to secondary storage
+- Allows larger programs to run than would otherwise fit in physical memory
+- Enables multiple processes to execute simultaneously
+- Provides memory protection and isolation between processes
+- Each process operates in its own virtual address space
+- The operating system loads only the required portions of a process into RAM instead of loading the entire process
+--------------------------------------------------------------------------------------------------------------------------
+
+
+█▀█ ▄▀█ █▀▀ █ █▄░█ █▀▀
+█▀▀ █▀█ █▄█ █ █░▀█ █▄█
+--------------------------------------------------------------------------------------------------------------------------
+- A memory management technique used by the operating system to implement virtual memory efficiently
+- A process's logical (virtual) address space is divided into fixed-size blocks called pages
+- Physical memory (RAM) is divided into fixed-size blocks called frames
+- Pages and frames are of the same size
+
+Key Concepts:
+- Logical Memory → Pages
+- Physical Memory → Frames
+- Page Table → Maps pages to frames
+- Page Number → Used to locate the corresponding frame number through the page table
+
+Advantages:
+- Eliminates external fragmentation
+- Simplifies memory allocation
+- Supports virtual memory implementation
+
+Disadvantages:
+- Can cause internal fragmentation
+- Requires additional memory for page tables
+- Address translation introduces overhead
+--------------------------------------------------------------------------------------------------------------------------
+
+
+█▀▀ ▀▄▀ ▀█▀ █▀█ ▄▀█ █▀
+██▄ █░█ ░█░ █▀▄ █▀█ ▄█
+--------------------------------------------------------------------------------------------------------------------------
+OS ABSTRACTIONS by MMU:
+
+System Call Interface:
+- A controlled gateway that allows user programs to request services from the operating system kernel
+Kernel Mode:
+- A privileged CPU execution mode in which the operating system can execute privileged instructions and access hardware resources directly
+User Mode:
+- A restricted execution mode in which applications cannot execute privileged instructions directly
+--------------------------------------------------------
+
+
+DATA STRUCTURES used for MMU:
+
+1. PCB (Process Control Block):
+- A kernel data structure that stores all information required to manage a process
+- Contains:
+    - Process ID (PID)
+    - Process State
+    - Program Counter
+    - CPU Registers
+    - Scheduling Information
+    - Memory Management Information
+    - Open File Information
+
+2. Page Table:
+- A data structure used by the paging system
+- Maintains mappings between virtual pages and physical frames
+
+3. CPU Context / CPU State:
+- Stores information required to resume a process after an interruption
+- Typically includes:
+    - Program Counter (PC)
+    - Stack Pointer (SP)
+    - General-Purpose Registers
+    - Processor Status Word (PSW)
+    - CPU Mode Bit (User/Kernel)
+--------------------------------------------------------------------------------------------------------------------------

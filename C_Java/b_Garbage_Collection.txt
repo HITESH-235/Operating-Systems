@@ -1,0 +1,44 @@
+█▀▀ ▄▀█ █▀█ █▄▄ ▄▀█ █▀▀ █▀▀   █▀▀ █▀█ █░░ █░░ █▀▀ █▀▀ ▀█▀ █ █▀█ █▄░█
+█▄█ █▀█ █▀▄ █▄█ █▀█ █▄█ ██▄   █▄▄ █▄█ █▄▄ █▄▄ ██▄ █▄▄ ░█░ █ █▄█ █░▀█
+---------------------------------------------------------------------------------------------------------
+- in java it is an automatic memory management process performed by the JVM
+- It helps in removing unused and unreachable objects from heap memory
+- this improves memory utilization and app performance
+- devs do not need to manually free memory because the JVM itself handles cleanup
+--------------------------------------------------------------------------------
+Working of Garbage Collection: 
+- Object Creation: objects are created in the heap memory when the program runs
+- Reference Checking: the garbage collector checks whether objects are still referenced
+- Identify Unreachable Objects: objects that become unreachable are eligible for gc
+- Reuse of Memory: freed memory is reallocated for newere objects
+--------------------------------------------------------------------------------
+Types of Garbage Collection in Java:
+
+1. Minor Garbage Collection:
+- occurs in the "young generation" of heap memory, for short lived and unreachable objs
+- faster compared to Major GC
+- removes temporary objs quickly
+
+2. Major or Full Garbage Collection: 
+- major garbage collection occurs in the "old generation" of heap memory
+- removes long lived objs that are no longer referenced
+- slower than Minor GC
+--------------------------------------------------------------------------------
+Key Concepts on GC: 
+
+# Unreachable Objects: if it does not contain any reference to it
+    e.g.    Integer i = new Integer(4);
+            i = null        // i was reachable before this
+
+# Making Objs Eligible for GC: an obj is eligible for garbage collection if unreachable
+- few ways for obj dereferencing / making unreachable:
+    - Nullifying;      obj = null
+    - Reassigning the reference variable;      obj = new Object()
+    - Object inside method after execution is also eligible for gc
+
+# Requesting for GC: once an object is eligible for gc, it may not be destroyed immed.
+- the gc runs only at the JVM's direction which is unpredictable
+- but we can request the JVM to run garbage collector
+    1. System.gc(): Static method to request for gc
+    2. Runtime.getRuntime().gc(): Runtime Class to do same
+---------------------------------------------------------------------------------------------------------

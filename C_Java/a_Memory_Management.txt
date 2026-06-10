@@ -1,0 +1,167 @@
+░░█ █▀▄ █▄▀ ░░▄▀ ░░█ █▀█ █▀▀ ░░▄▀ ░░█ █░█ █▀▄▀█
+█▄█ █▄▀ █░█ ▄▀░░ █▄█ █▀▄ ██▄ ▄▀░░ █▄█ ▀▄▀ █░▀░█
+-----------------------------------------------------------------------------------------------------
+- JDK provides the tools and libraries to develop Java apps, working with JRE and JVM.
+- JRE offers the libraries and JVM needed to run Java programs.
+- JVM executes the compiled Java bytecode on the system.
+- JDK is mainly used by developers, while JRE is required by end-users to run the app.
+- JVM executes bytecode, making programs platform-independent across systems.
+-----------------------------------------------------------------------------------------------------
+
+JDK (Java Development Kit): software development kit used to build Java apps.
+- JDK = (JRE + set of development tools), where JRE = (JVM + libraries), development tools = (compiler, jar, javadoc, debugger).
+- includes compiler, debugger, utilities like jar and javadoc.
+- provides the JRE, so it also allows running Java programs.
+- required by developers to write, compile, and debug code.
+
+- working of JDK:
+    # Source Code: developer writes a Java program.
+    # Compilation: compiler (javac) converts the code into bytecode.
+    # Execution: JVM executes the bytecode, translating it into native instructions.
+-----------------------------------------------------------------------------------------------------
+
+JRE (Java Runtime Environment): provides an environment to run Java programs but does not include development tools.
+- intended for end-users who only need to execute applications.
+- contains the (JVM + standard class libraries).
+- provides all runtime requirements for Java applications.
+- does not support compilation or debugging.
+- JRE only runs the applications, not for developing them.
+- it is platform-dependent (different builds for different OSes).
+
+- working of JRE:
+    # Class Loading: loads compiled .class files into memory.
+    # Bytecode Verification: ensures security and validity of bytecode.
+    # Execution: uses the JVM (interpreter + JIT compiler) to execute instructions and make system calls.
+-----------------------------------------------------------------------------------------------------
+
+JVM (Java Virtual Machine): core execution engine of Java, responsible for converting bytecode into machine-specific instructions.
+- part of both JDK and JRE.
+- performs memory management and garbage collection.
+- provides portability by executing the same bytecode on different platforms.
+
+- platform-independent.
+- bytecode is platform-independent and can run on any JVM.
+- modern JVMs rely heavily on Just-In-Time (JIT) compilers for performance.
+
+- working of JVM:
+    # Loading: class loader loads bytecode into memory.
+    # Initialisation: executes class constructors and static initialisers.
+    # Execution: interprets or compiles bytecode into native code.
+-----------------------------------------------------------------------------------------------------
+
+
+░░█ █░█ █▀▄▀█   █▀▄▀█ █▀▀ █▀▄▀█ █▀█ █▀█ █▄█
+█▄█ ▀▄▀ █░▀░█   █░▀░█ ██▄ █░▀░█ █▄█ █▀▄ ░█░
+-----------------------------------------------------------------------------------------------------
+JVM MEMORY includes:
+- Objects,
+- Threads,
+- Variables/Objects,
+- Temporary data
+
+- JVM handles all of these; hence, developers do not explicitly need to handle allocation and deallocation of memory
+- the garbage collector automatically reclaims the memory occupied by objects that are no longer being referenced
+- Why is the memory even separated in JVM?
+    - because different parts of memory have different lifetimes (thus the garbage collector does not need to run again and again for all areas)
+    - security: isolation of different areas makes programs safer since it is plausible for one corrupt part to damage another
+    - efficiency: tailored memory management for each separate area
+    - concurrency/multitasking: providing each thread with its own stack and PC register
+            - hence, this allows multithreading, meaning many threads running in parallel
+-----------------------------------------------------------------------------------------------------
+COMPONENTS OF JVM MEMORY EXPLAINED:
+
+Heap: the JVM's shared memory region used for dynamic memory allocation
+- it is where objects and arrays are created and stored during program execution
+
+Stack: the "per-thread memory" region that stores method execution frames
+- also includes local variables, method parameters, references, and return information, following a LIFO structure
+
+Method Area: area that stores class-level data, such as bytecodes of methods
+- static variables
+- constant pool information (lookup table in compiled class file)
+- metadata of classes and interfaces
+- needed for the whole lifespan of the app, unlike transient methods and short-lived objects
+- separate from dynamic object data, hence optimised for efficiency, access, and management
+
+Program Counter: each thread has its own Program Counter register
+- holds the address of the current instruction being executed by the JVM for that specific thread
+- crucial since when you switch between threads, the PC register is saved and restored, allowing each thread to resume execution
+
+Native Method Stack: used to support native methods written in C/C++ and called from Java via JNI (Java Native Interface)
+- allocated by the OS, not the JVM itself
+- has different memory management than Java bytecode, hence requiring its own separate stack
+-----------------------------------------------------------------------------------------------------
+
+
+█░█ █▀▀ ▄▀█ █▀█ █▀ ░░▄▀ █▀ ▀█▀ ▄▀█ █▀▀ █▄▀ █▀   █ █▄░█   █▀▄ █▀▀ █▀█ ▀█▀ █░█
+█▀█ ██▄ █▀█ █▀▀ ▄█ ▄▀░░ ▄█ ░█░ █▀█ █▄▄ █░█ ▄█   █ █░▀█   █▄▀ ██▄ █▀▀ ░█░ █▀█
+-----------------------------------------------------------------------------------------------------
+Heap: the huge chunk where all objects and arrays are allocated at runtime
+- the primary memory pool for dynamically allocated data
+- shared among all threads in a Java app
+- contents have variable lifetimes
+- subject to garbage collection
+
+What heap stores:
+- objects (new Person(), new ArrayList<>(), etc)
+- object instance variables (fields/attributes)
+- arrays (new int[10], new String[5])
+- String objects
+- class instances and their member variables
+
+------------------------------------------------------------------------
+
+Stack: each thread in a Java app has its own stack (privately)
+- used for storing local variables, methods, and call frames
+- concurrency: each thread requires its own independent execution context
+- if shared, multiple threads would mix up and create conflicts in a multithreaded environment
+- life cycle management: stack memory follows a LIFO principle, so when a method is called, a new frame is pushed onto the stack
+
+What stack stores:
+- primitive local variables
+- reference variables (object addresses)
+- method parameters
+- return addresses
+- method execution frames (activation records)
+
+------------------------------------------------------------------------
+
+e.g. code:                                      |stack:                         |heap:
+public static void main(String[] args) {        |1. x = 10                      |1. Person object
+    int x = 10;                                 |2. p (reference variable)      |2. all fields inside the Person object
+    Person p = new Person()                     |                               |
+}
+
+e.g. array:                 |stack:                  |heap:
+int[] arr = new int[5];     |1. reference var arr    |1. array object
+                            |                        |2. 5 integer elements inside the array
+
+------------------------------------------------------------------------
+
+FINAL RULE to remember:
+
+STACK has:  1. local primitive variables        HEAP has:  1. objects
+            2. reference variables                         2. arrays
+            3. method call information                     3. instance fields/data members
+
+------------------------------------------------------------------------
+
+What are "METHOD-EXECUTION-FRAMES"?
+- a block of memory pushed onto the thread's stack whenever a method is called
+- contains the following:   - local variables
+                            - method parameters
+                            - return addresses (where execution should continue after the method finishes)
+                            - JVM bookkeeping information
+
+e.g. code:
+public static void main(String[] args) {        when foo(5) is called, the stack looks like this:
+    int x = 10;                                 ┌─────────────────┐
+    foo(5);                                     │ foo() frame     │
+}                                               │ y = 5           │
+                                                │ z = 20          │
+static void foo(int y) {                        │ return address  │
+    int z = 20;                                 └─────────────────┘
+}                                               │ main() frame    │
+                                                │ x = 10          │
+                                                └─────────────────┘
+-----------------------------------------------------------------------------------------------------

@@ -1,0 +1,32 @@
+--------------------------------------------------------------------------------------------------------------------------
+Process: 
+- currently running program
+- memory space
+- code section
+- data section
+- heap
+- stack
+- open files
+- resource
+--------------------------------------------------------------------------------------------------------------------------
+Thread:
+- smallest unit of CPU execution inside a process (same process can run on mutli threads)
+- chrome: t1: UI, t2: rendering, t3: network, t4: JS Engine
+- process owns resources, threads use those resoruces
+- each thread gets its own (stack, program counter, registers) (hence more cost with more threads)
+
+has:
+- program counter
+- register
+- stack
+- execution state
+--------------------------------------------------------------------------------------------------------------------------
+
+
+threads inside the same process (in multi threading) shares:
+- code
+- heap
+- global variables
+- open files
+- sockets
+--------------------------------------------------------------------------------------------------------------------------
